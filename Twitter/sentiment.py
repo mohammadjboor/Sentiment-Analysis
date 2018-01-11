@@ -55,17 +55,25 @@ test_vec = vectorizer.transform(test_arr)
 
 from sklearn.svm import LinearSVC
 from sklearn.naive_bayes import BernoulliNB, GaussianNB, MultinomialNB
+from sklearn import tree
 
+#SVM train
 lsvm=LinearSVC()
 lsvm.fit(train_vec,train_lbl)
 
+#Naive Bayes train
 clf = GaussianNB()
 clf.fit((train_vec.toarray()),train_lbl)
 
+#DecisionTree train
+tree_clf = tree.DecisionTreeClassifier()
+tree_clf.fit(train_vec,train_lbl)
+
 y_pred_clf=clf.predict(test_vec.toarray())
 y_pred_lsv=lsvm.predict(test_vec)
+y_pred_dct=tree_clf.predict(test_vec)
 
-test=[' حقا']
+test=[' انت سيء']
 test_tfstr = vectorizer.transform(test)
 
 from sklearn.metrics import  accuracy_score
@@ -75,7 +83,9 @@ print("CLF Tes Tcase:", clf.predict(test_tfstr.toarray())[0])
 print("******************************************************")
 print("SVM accuracy:", metrics.accuracy_score(test_lbl,y_pred_lsv))
 print("SVM Tes Tcase:", lsvm.predict(test_tfstr.toarray())[0])
-
+print("******************************************************")
+print("DCT accuracy:", metrics.accuracy_score(test_lbl,y_pred_dct))
+print("DCT Tes Tcase:", tree_clf.predict(test_tfstr.toarray())[0])
 '''
 vectorizer = CountVectorizer()
 vectorizer.fit(train_arr)
